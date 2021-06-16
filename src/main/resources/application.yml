@@ -1,0 +1,48 @@
+server:
+  port: 8666
+
+info:
+  app:
+    name: Exception Manager
+    version: 1.0
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:6432/postgres
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+    initialization-mode: always
+    hikari:
+      maximumPoolSize: 50
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_schema: exceptionmanager
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+    port: 6672
+    virtualhost: /
+
+management:
+  endpoints:
+    enabled-by-default: true
+  endpoint:
+    info:
+      enabled: true
+
+peek:
+  timeout: 30000 # milliseconds
+
+general-config:
+  number-of-retries-before-logging: 1
