@@ -2,7 +2,7 @@ version: '2.1'
 services:
   postgres:
     container_name: postgres-exceptionmanager-it
-    image: postgres:11
+    image: postgres:13
     command: ["-c", "shared_buffers=256MB", "-c", "max_connections=500"]
     ports:
       - "15432:5432"
