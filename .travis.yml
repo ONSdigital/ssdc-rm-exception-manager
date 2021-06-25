@@ -10,6 +10,8 @@ before_install:
   - mvn fmt:check
   - docker login -u "${DOCKER_GCP_USERNAME}" -p "${DOCKER_GCP_PASSWORD}" "${DOCKER_GCP_REGISTRY}";
 
+install: echo "SKIPPING DEFAULT INSTALL" # Travis has a default maven install that will surely fail
+
 script: travis_wait mvn verify jacoco:report
 
 after_success:
