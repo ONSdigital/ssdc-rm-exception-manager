@@ -16,7 +16,7 @@ spring:
       maximumPoolSize: 50
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
     hibernate:
       ddl-auto: update
     properties:
