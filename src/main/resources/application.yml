@@ -12,12 +12,11 @@ spring:
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver
-    initialization-mode: always
     hikari:
       maximumPoolSize: 50
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
     hibernate:
       ddl-auto: update
     properties:
@@ -26,6 +25,10 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
+  sql:
+    init:
+      mode: always
 
   rabbitmq:
     username: guest

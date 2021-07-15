@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.SkippedMessage;
 import uk.gov.ons.ssdc.exceptionmanager.model.entity.QuarantinedMessage;
 import uk.gov.ons.ssdc.exceptionmanager.model.repository.QuarantinedMessageRepository;
@@ -40,6 +41,7 @@ public class AdminEndpointIT {
   @Autowired private CachingDataStore cachingDataStore;
 
   @Before
+  @Transactional
   public void setUp() {
     quarantinedMessageRepository.deleteAllInBatch();
     rabbitQueueHelper.purgeQueue(TEST_QUEUE_NAME);
