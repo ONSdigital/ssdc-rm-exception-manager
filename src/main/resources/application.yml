@@ -39,9 +39,9 @@ spring:
 
 management:
   endpoints:
-    enabled-by-default: true
+    enabled-by-default: false
   endpoint:
-    info:
+    health:
       enabled: true
 
 peek:
