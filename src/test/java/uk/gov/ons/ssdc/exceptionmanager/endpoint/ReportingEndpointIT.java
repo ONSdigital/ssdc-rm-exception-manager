@@ -16,14 +16,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.AutoQuarantineRule;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.ExceptionReport;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.Peek;
@@ -34,7 +34,7 @@ import uk.gov.ons.ssdc.exceptionmanager.model.repository.AutoQuarantineRuleRepos
 import uk.gov.ons.ssdc.exceptionmanager.model.repository.QuarantinedMessageRepository;
 import uk.gov.ons.ssdc.exceptionmanager.persistence.CachingDataStore;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class ReportingEndpointIT {
@@ -53,7 +53,7 @@ public class ReportingEndpointIT {
 
   @LocalServerPort private int port;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     quarantinedMessageRepository.deleteAllInBatch();
     cachingDataStore.reset(Optional.empty());

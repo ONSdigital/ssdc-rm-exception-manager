@@ -7,14 +7,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import java.util.*;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.SkippedMessage;
 import uk.gov.ons.ssdc.exceptionmanager.model.entity.QuarantinedMessage;
@@ -23,7 +23,7 @@ import uk.gov.ons.ssdc.exceptionmanager.persistence.CachingDataStore;
 import uk.gov.ons.ssdc.exceptionmanager.testutil.QueueSpy;
 import uk.gov.ons.ssdc.exceptionmanager.testutil.RabbitQueueHelper;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class AdminEndpointIT {
@@ -40,7 +40,7 @@ public class AdminEndpointIT {
 
   @Autowired private CachingDataStore cachingDataStore;
 
-  @Before
+  @BeforeEach
   @Transactional
   public void setUp() {
     quarantinedMessageRepository.deleteAllInBatch();
