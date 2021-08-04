@@ -30,13 +30,6 @@ spring:
     init:
       mode: always
 
-  rabbitmq:
-    username: guest
-    password: guest
-    host: localhost
-    port: 6672
-    virtualhost: /
-
 management:
   endpoints:
     enabled-by-default: false
