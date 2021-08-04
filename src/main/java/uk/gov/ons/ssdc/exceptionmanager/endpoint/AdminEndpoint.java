@@ -1,21 +1,15 @@
 package uk.gov.ons.ssdc.exceptionmanager.endpoint;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
-import org.springframework.amqp.core.MessageDeliveryMode;
-import org.springframework.amqp.core.MessagePostProcessor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +24,6 @@ import uk.gov.ons.ssdc.exceptionmanager.model.dto.AutoQuarantineRule;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.BadMessageReport;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.BadMessageSummary;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.SkippedMessage;
-import uk.gov.ons.ssdc.exceptionmanager.model.entity.QuarantinedMessage;
 import uk.gov.ons.ssdc.exceptionmanager.model.repository.QuarantinedMessageRepository;
 import uk.gov.ons.ssdc.exceptionmanager.persistence.CachingDataStore;
 
@@ -39,17 +32,14 @@ public class AdminEndpoint {
   private final CachingDataStore cachingDataStore;
   private final int peekTimeout;
   private final QuarantinedMessageRepository quarantinedMessageRepository;
-  private final RabbitTemplate rabbitTemplate;
 
   public AdminEndpoint(
       CachingDataStore cachingDataStore,
       @Value("${peek.timeout}") int peekTimeout,
-      QuarantinedMessageRepository quarantinedMessageRepository,
-      RabbitTemplate rabbitTemplate) {
+      QuarantinedMessageRepository quarantinedMessageRepository) {
     this.cachingDataStore = cachingDataStore;
     this.peekTimeout = peekTimeout;
     this.quarantinedMessageRepository = quarantinedMessageRepository;
-    this.rabbitTemplate = rabbitTemplate;
   }
 
   @GetMapping(path = "/badmessages")
@@ -194,37 +184,6 @@ public class AdminEndpoint {
   @DeleteMapping(path = "/quarantinerule/{id}")
   public void deleteQuarantineRules(@PathVariable("id") String id) {
     cachingDataStore.deleteQuarantineRule(id);
-  }
-
-  @Transactional
-  @GetMapping(path = "/replayquarantinedmessage/{id}")
-  public void replaySkippedMessage(@PathVariable("id") String id) {
-    Optional<QuarantinedMessage> quarantinedMessageOpt =
-        quarantinedMessageRepository.findById(UUID.fromString(id));
-    if (!quarantinedMessageOpt.isPresent()) {
-      throw new RuntimeException("Cannot find quarantined message with ID: " + id);
-    }
-
-    QuarantinedMessage quarantinedMessage = quarantinedMessageOpt.get();
-
-    if (quarantinedMessage.getRoutingKey().equals("none")) {
-      throw new RuntimeException("Cannot replay PubSub messages... yet"); // TODO
-    }
-
-    MessagePostProcessor mpp =
-        message -> {
-          message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
-          message.getMessageProperties().setContentType(quarantinedMessage.getContentType());
-          for (Entry<String, JsonNode> headerEntry : quarantinedMessage.getHeaders().entrySet()) {
-            message.getMessageProperties().setHeader(headerEntry.getKey(), headerEntry.getValue());
-          }
-          return message;
-        };
-
-    rabbitTemplate.convertAndSend(
-        quarantinedMessage.getQueue(), quarantinedMessage.getMessagePayload(), mpp);
-
-    quarantinedMessageRepository.delete(quarantinedMessage);
   }
 
   private Set<String> getSeenMessageHashes(int minimumSeenCount) {

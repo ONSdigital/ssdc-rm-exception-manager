@@ -2,8 +2,5 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:15432/postgres
 
-  rabbitmq:
-    port: 35672
-
 general-config:
   number-of-retries-before-logging: 0
