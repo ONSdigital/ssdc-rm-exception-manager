@@ -64,11 +64,10 @@ public class ReportingEndpointTest {
         new ReportingEndpoint(cachingDataStore, quarantinedMessageRepository);
     SkippedMessage skippedMessage = new SkippedMessage();
     skippedMessage.setMessageHash("test message hash");
-    skippedMessage.setQueue("test queue");
+    skippedMessage.setSubscription("test subscription");
     skippedMessage.setContentType("application/xml");
     skippedMessage.setHeaders(Map.of("foo", "bar"));
     skippedMessage.setMessagePayload("<noodle>poodle</noodle>".getBytes());
-    skippedMessage.setRoutingKey("test routing key");
     skippedMessage.setService("test service");
 
     underTest.storeSkippedMessage(skippedMessage);
@@ -83,7 +82,6 @@ public class ReportingEndpointTest {
     assertThat(quarantinedMessage.getHeaders()).isEqualTo(skippedMessage.getHeaders());
     assertThat(quarantinedMessage.getMessagePayload())
         .isEqualTo(skippedMessage.getMessagePayload());
-    assertThat(quarantinedMessage.getRoutingKey()).isEqualTo(skippedMessage.getRoutingKey());
     assertThat(quarantinedMessage.getService()).isEqualTo(skippedMessage.getService());
   }
 }

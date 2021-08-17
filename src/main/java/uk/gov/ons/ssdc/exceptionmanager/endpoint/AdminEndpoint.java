@@ -65,7 +65,7 @@ public class AdminEndpoint {
       Instant lastSeen = Instant.MIN;
       int seenCount = 0;
       Set<String> affectedServices = new HashSet<>();
-      Set<String> affectedQueues = new HashSet<>();
+      Set<String> affectedSubscriptions = new HashSet<>();
 
       for (BadMessageReport badMessageReport : cachingDataStore.getBadMessageReports(messageHash)) {
         if (badMessageReport.getStats().getFirstSeen().isBefore(firstSeen)) {
@@ -79,14 +79,14 @@ public class AdminEndpoint {
         seenCount += badMessageReport.getStats().getSeenCount().get();
 
         affectedServices.add(badMessageReport.getExceptionReport().getService());
-        affectedQueues.add(badMessageReport.getExceptionReport().getQueue());
+        affectedSubscriptions.add(badMessageReport.getExceptionReport().getSubscription());
       }
 
       badMessageSummary.setFirstSeen(firstSeen);
       badMessageSummary.setLastSeen(lastSeen);
       badMessageSummary.setSeenCount(seenCount);
       badMessageSummary.setAffectedServices(affectedServices);
-      badMessageSummary.setAffectedQueues(affectedQueues);
+      badMessageSummary.setAffectedSubscriptions(affectedSubscriptions);
       badMessageSummary.setQuarantined(cachingDataStore.isQuarantined(messageHash));
     }
 

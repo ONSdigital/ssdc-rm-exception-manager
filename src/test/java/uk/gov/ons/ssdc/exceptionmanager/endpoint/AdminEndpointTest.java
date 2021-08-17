@@ -49,7 +49,7 @@ public class AdminEndpointTest {
     CachingDataStore cachingDataStore = mock(CachingDataStore.class);
     Set testSet = Set.of("test message hash");
     ExceptionReport exceptionReport = new ExceptionReport();
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setService("test service");
     ExceptionStats exceptionStats = new ExceptionStats();
     exceptionStats.getSeenCount().set(666);
@@ -73,7 +73,8 @@ public class AdminEndpointTest {
     assertThat(actualResponse.getBody()).isNotNull();
     assertThat(actualResponse.getBody().size()).isEqualTo(1);
     BadMessageSummary actualBadMessageSummary = actualResponse.getBody().get(0);
-    assertThat(actualBadMessageSummary.getAffectedQueues()).containsOnly("test queue");
+    assertThat(actualBadMessageSummary.getAffectedSubscriptions())
+        .containsOnly("test subscription");
     assertThat(actualBadMessageSummary.getAffectedServices()).containsOnly("test service");
     assertThat(actualBadMessageSummary.getFirstSeen()).isEqualTo(exceptionStats.getFirstSeen());
     assertThat(actualBadMessageSummary.getLastSeen()).isEqualTo(exceptionStats.getLastSeen());
