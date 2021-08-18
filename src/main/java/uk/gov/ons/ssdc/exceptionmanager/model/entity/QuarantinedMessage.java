@@ -36,6 +36,8 @@ public class QuarantinedMessage {
 
   @Column private String subscription;
 
+  @Column private String routingKey;
+
   @Column private String contentType;
 
   @Type(type = "jsonb")

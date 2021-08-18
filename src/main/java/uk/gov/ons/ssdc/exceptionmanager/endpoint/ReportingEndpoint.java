@@ -83,6 +83,7 @@ public class ReportingEndpoint {
     quarantinedMessage.setMessageHash(skippedMessage.getMessageHash());
     quarantinedMessage.setMessagePayload(skippedMessage.getMessagePayload());
     quarantinedMessage.setSubscription(skippedMessage.getSubscription());
+    quarantinedMessage.setRoutingKey(skippedMessage.getRoutingKey());
     quarantinedMessage.setService(skippedMessage.getService());
     quarantinedMessage.setErrorReports(errorReports);
 

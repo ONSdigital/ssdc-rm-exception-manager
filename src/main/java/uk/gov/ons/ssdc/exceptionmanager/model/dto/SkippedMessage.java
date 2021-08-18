@@ -11,6 +11,7 @@ public class SkippedMessage {
   private byte[] messagePayload;
   private String service;
   private String subscription;
+  private String routingKey;
   private String contentType;
   private Map headers;
 }

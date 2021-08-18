@@ -187,6 +187,7 @@ public class ReportingEndpointIT {
     SkippedMessage skippedMessage = new SkippedMessage();
     skippedMessage.setMessageHash(TEST_MESSAGE_HASH);
     skippedMessage.setSubscription("test subscription");
+    skippedMessage.setRoutingKey("test routing key");
     skippedMessage.setContentType("application/xml");
     skippedMessage.setHeaders(Map.of("foo", "bar"));
     skippedMessage.setMessagePayload("<noodle>poodle</noodle>".getBytes());
@@ -217,6 +218,7 @@ public class ReportingEndpointIT {
     assertThat(quarantinedMessage.getHeaders().get("foo")).isEqualTo(new TextNode("bar"));
     assertThat(quarantinedMessage.getMessagePayload())
         .isEqualTo(skippedMessage.getMessagePayload());
+    assertThat(quarantinedMessage.getRoutingKey()).isEqualTo(skippedMessage.getRoutingKey());
     assertThat(quarantinedMessage.getService()).isEqualTo(skippedMessage.getService());
     assertThat(quarantinedMessage.getSkippedTimestamp()).isNotNull();
     assertThat(quarantinedMessage.getErrorReports()).isNotBlank();
