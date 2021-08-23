@@ -34,7 +34,7 @@ public class QuarantinedMessage {
 
   @Column private String service;
 
-  @Column private String queue;
+  @Column private String subscription;
 
   @Column private String routingKey;
 

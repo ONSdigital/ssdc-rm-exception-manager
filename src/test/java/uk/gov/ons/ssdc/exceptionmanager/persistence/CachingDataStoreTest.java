@@ -32,7 +32,7 @@ public class CachingDataStoreTest {
     exceptionReport.setMessageHash("test message hash");
     exceptionReport.setExceptionClass("test class");
     exceptionReport.setExceptionMessage("test exception message");
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setService("test service");
 
     underTest.updateStats(exceptionReport);
@@ -58,7 +58,7 @@ public class CachingDataStoreTest {
     exceptionReport.setMessageHash("test message hash");
     exceptionReport.setExceptionClass("test class");
     exceptionReport.setExceptionMessage("test exception message");
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setService("test service");
 
     underTest.updateStats(exceptionReport);
@@ -85,7 +85,7 @@ public class CachingDataStoreTest {
     exceptionReportOne.setMessageHash("test message hash");
     exceptionReportOne.setExceptionClass("test class");
     exceptionReportOne.setExceptionMessage("test exception message");
-    exceptionReportOne.setQueue("test queue");
+    exceptionReportOne.setSubscription("test subscription");
     exceptionReportOne.setService("test service");
 
     underTest.updateStats(exceptionReportOne);
@@ -94,7 +94,7 @@ public class CachingDataStoreTest {
     exceptionReportTwo.setMessageHash("test message hash");
     exceptionReportTwo.setExceptionClass("test class");
     exceptionReportTwo.setExceptionMessage("different test exception message");
-    exceptionReportTwo.setQueue("test queue");
+    exceptionReportTwo.setSubscription("test subscription");
     exceptionReportTwo.setService("test service");
     underTest.updateStats(exceptionReportTwo);
     underTest.updateStats(exceptionReportTwo);
@@ -128,7 +128,7 @@ public class CachingDataStoreTest {
     exceptionReport.setMessageHash("test message hash");
     exceptionReport.setExceptionClass("test class");
     exceptionReport.setExceptionMessage("test exception message");
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setService("test service");
 
     assertThat(underTest.shouldWeLogThisMessage(exceptionReport)).isTrue();
@@ -148,7 +148,7 @@ public class CachingDataStoreTest {
     exceptionReport.setMessageHash("test message hash");
     exceptionReport.setExceptionClass("test class");
     exceptionReport.setExceptionMessage("test exception message");
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setService("test service");
 
     assertThat(underTest.shouldWeLogThisMessage(exceptionReport)).isFalse();
@@ -172,7 +172,7 @@ public class CachingDataStoreTest {
     exceptionReport.setMessageHash("test message hash");
     exceptionReport.setExceptionClass("test class");
     exceptionReport.setExceptionMessage("test exception message");
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setService("test service");
 
     assertThat(underTest.shouldWeSkipThisMessage(exceptionReport)).isFalse();
@@ -193,14 +193,15 @@ public class CachingDataStoreTest {
     AutoQuarantineRule rule = new AutoQuarantineRule();
     rule.setQuarantine(true);
     rule.setRuleExpiryDateTime(OffsetDateTime.MAX);
-    rule.setExpression("exceptionClass == \"test class\" and queue == \"test queue\"");
+    rule.setExpression(
+        "exceptionClass == \"test class\" and subscription == \"test subscription\"");
     when(autoQuarantineRuleRepository.findAll()).thenReturn(Collections.singletonList(rule));
     CachingDataStore underTest = new CachingDataStore(autoQuarantineRuleRepository, 0);
     ExceptionReport exceptionReport = new ExceptionReport();
     exceptionReport.setMessageHash("test message hash");
     exceptionReport.setExceptionClass("test class");
     exceptionReport.setExceptionMessage("test exception message");
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setService("test service");
 
     List<AutoQuarantineRule> matchingRules = underTest.findMatchingRules(exceptionReport);
@@ -222,7 +223,7 @@ public class CachingDataStoreTest {
     exceptionReport.setMessageHash("test message hash");
     exceptionReport.setExceptionClass("test class");
     exceptionReport.setExceptionMessage("test exception message");
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setService("test service");
 
     List<AutoQuarantineRule> matchingRules = underTest.findMatchingRules(exceptionReport);
@@ -236,7 +237,7 @@ public class CachingDataStoreTest {
         mock(AutoQuarantineRuleRepository.class);
     AutoQuarantineRule rule = new AutoQuarantineRule();
     rule.setQuarantine(true);
-    rule.setExpression("exceptionClass == \"noodle\" and queue == \"test queue\"");
+    rule.setExpression("exceptionClass == \"noodle\" and subscription == \"test subscription\"");
     rule.setRuleExpiryDateTime(OffsetDateTime.MAX);
     when(autoQuarantineRuleRepository.findAll()).thenReturn(Collections.singletonList(rule));
     CachingDataStore underTest = new CachingDataStore(autoQuarantineRuleRepository, 0);
@@ -244,7 +245,7 @@ public class CachingDataStoreTest {
     exceptionReport.setMessageHash("test message hash");
     exceptionReport.setExceptionClass("test class");
     exceptionReport.setExceptionMessage("test exception message");
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setService("test service");
 
     List<AutoQuarantineRule> matchingRules = underTest.findMatchingRules(exceptionReport);
@@ -261,7 +262,7 @@ public class CachingDataStoreTest {
     exceptionReport.setMessageHash("test message hash");
     exceptionReport.setExceptionClass("test class");
     exceptionReport.setExceptionMessage("test exception message");
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setService("test service");
 
     assertThat(underTest.shouldWePeekThisMessage("test message hash")).isFalse();
@@ -285,7 +286,7 @@ public class CachingDataStoreTest {
     exceptionReportOne.setMessageHash("test message hash");
     exceptionReportOne.setExceptionClass("test class");
     exceptionReportOne.setExceptionMessage("test exception message");
-    exceptionReportOne.setQueue("test queue");
+    exceptionReportOne.setSubscription("test subscription");
     exceptionReportOne.setService("test service");
 
     underTest.updateStats(exceptionReportOne);
@@ -294,7 +295,7 @@ public class CachingDataStoreTest {
     exceptionReportTwo.setMessageHash("another test message hash");
     exceptionReportTwo.setExceptionClass("test class");
     exceptionReportTwo.setExceptionMessage("test exception message");
-    exceptionReportTwo.setQueue("test queue");
+    exceptionReportTwo.setSubscription("test subscription");
     exceptionReportTwo.setService("test service");
     underTest.updateStats(exceptionReportTwo);
     underTest.updateStats(exceptionReportTwo);
@@ -338,19 +339,19 @@ public class CachingDataStoreTest {
   }
 
   @Test
-  public void testStoreTwoSkippedMessagse() {
+  public void testStoreTwoSkippedMessages() {
     AutoQuarantineRuleRepository autoQuarantineRuleRepository =
         mock(AutoQuarantineRuleRepository.class);
     when(autoQuarantineRuleRepository.findAll()).thenReturn(Collections.emptyList());
     CachingDataStore underTest = new CachingDataStore(autoQuarantineRuleRepository, 0);
     SkippedMessage skippedMessageOne = new SkippedMessage();
     skippedMessageOne.setMessageHash("test message hash");
-    skippedMessageOne.setQueue("test queue one");
+    skippedMessageOne.setSubscription("test subscription one");
     underTest.storeSkippedMessage(skippedMessageOne);
 
     SkippedMessage skippedMessageTwo = new SkippedMessage();
     skippedMessageTwo.setMessageHash("test message hash");
-    skippedMessageTwo.setQueue("test queue twp");
+    skippedMessageTwo.setSubscription("test subscription two");
     underTest.storeSkippedMessage(skippedMessageTwo);
 
     assertThat(underTest.getSkippedMessages("test message hash"))
@@ -365,12 +366,12 @@ public class CachingDataStoreTest {
     CachingDataStore underTest = new CachingDataStore(autoQuarantineRuleRepository, 0);
     SkippedMessage skippedMessageOne = new SkippedMessage();
     skippedMessageOne.setMessageHash("test message hash");
-    skippedMessageOne.setQueue("test queue one");
+    skippedMessageOne.setSubscription("test subscription one");
     underTest.storeSkippedMessage(skippedMessageOne);
 
     SkippedMessage skippedMessageTwo = new SkippedMessage();
     skippedMessageTwo.setMessageHash("test message hash");
-    skippedMessageTwo.setQueue("test queue twp");
+    skippedMessageTwo.setSubscription("test subscription two");
     underTest.storeSkippedMessage(skippedMessageTwo);
 
     Peek peek = new Peek();
@@ -382,7 +383,7 @@ public class CachingDataStoreTest {
     exceptionReportOne.setMessageHash("test message hash");
     exceptionReportOne.setExceptionClass("test class");
     exceptionReportOne.setExceptionMessage("test exception message");
-    exceptionReportOne.setQueue("test queue");
+    exceptionReportOne.setSubscription("test subscription");
     exceptionReportOne.setService("test service");
 
     underTest.updateStats(exceptionReportOne);
@@ -391,7 +392,7 @@ public class CachingDataStoreTest {
     exceptionReportTwo.setMessageHash("another test message hash");
     exceptionReportTwo.setExceptionClass("test class");
     exceptionReportTwo.setExceptionMessage("test exception message");
-    exceptionReportTwo.setQueue("test queue");
+    exceptionReportTwo.setSubscription("test subscription");
     exceptionReportTwo.setService("test service");
     underTest.updateStats(exceptionReportTwo);
     underTest.updateStats(exceptionReportTwo);
@@ -437,7 +438,7 @@ public class CachingDataStoreTest {
     exceptionReportOne.setMessageHash("test message hash");
     exceptionReportOne.setExceptionClass("test class");
     exceptionReportOne.setExceptionMessage("test exception message");
-    exceptionReportOne.setQueue("test queue");
+    exceptionReportOne.setSubscription("test subscription");
     exceptionReportOne.setService("test service");
 
     underTest.updateStats(exceptionReportOne);
@@ -446,7 +447,7 @@ public class CachingDataStoreTest {
     exceptionReportTwo.setMessageHash("another test message hash");
     exceptionReportTwo.setExceptionClass("test class");
     exceptionReportTwo.setExceptionMessage("test exception message");
-    exceptionReportTwo.setQueue("test queue");
+    exceptionReportTwo.setSubscription("test subscription");
     exceptionReportTwo.setService("test service");
     underTest.updateStats(exceptionReportTwo);
     underTest.reset(Optional.of(0));
@@ -466,7 +467,7 @@ public class CachingDataStoreTest {
     exceptionReportOne.setMessageHash("test message hash");
     exceptionReportOne.setExceptionClass("test class");
     exceptionReportOne.setExceptionMessage("test exception message");
-    exceptionReportOne.setQueue("test queue");
+    exceptionReportOne.setSubscription("test subscription");
     exceptionReportOne.setService("test service");
 
     underTest.updateStats(exceptionReportOne);
@@ -476,7 +477,7 @@ public class CachingDataStoreTest {
     exceptionReportTwo.setMessageHash("another test message hash");
     exceptionReportTwo.setExceptionClass("test class");
     exceptionReportTwo.setExceptionMessage("test exception message");
-    exceptionReportTwo.setQueue("test queue");
+    exceptionReportTwo.setSubscription("test subscription");
     exceptionReportTwo.setService("test service");
     underTest.updateStats(exceptionReportTwo);
 

@@ -64,11 +64,11 @@ public class ReportingEndpointTest {
         new ReportingEndpoint(cachingDataStore, quarantinedMessageRepository);
     SkippedMessage skippedMessage = new SkippedMessage();
     skippedMessage.setMessageHash("test message hash");
-    skippedMessage.setQueue("test queue");
+    skippedMessage.setSubscription("test subscription");
+    skippedMessage.setRoutingKey("test routing key");
     skippedMessage.setContentType("application/xml");
     skippedMessage.setHeaders(Map.of("foo", "bar"));
     skippedMessage.setMessagePayload("<noodle>poodle</noodle>".getBytes());
-    skippedMessage.setRoutingKey("test routing key");
     skippedMessage.setService("test service");
 
     underTest.storeSkippedMessage(skippedMessage);

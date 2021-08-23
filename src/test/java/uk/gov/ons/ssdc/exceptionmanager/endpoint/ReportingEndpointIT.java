@@ -85,7 +85,7 @@ public class ReportingEndpointIT {
     ExceptionReport exceptionReport = new ExceptionReport();
     exceptionReport.setMessageHash(TEST_MESSAGE_HASH);
     exceptionReport.setService("test service");
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setExceptionClass("test class");
     exceptionReport.setExceptionMessage("test quarantine_me message");
 
@@ -127,7 +127,7 @@ public class ReportingEndpointIT {
     ExceptionReport exceptionReport = new ExceptionReport();
     exceptionReport.setMessageHash(TEST_MESSAGE_HASH);
     exceptionReport.setService("test service");
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setExceptionClass("test class");
     exceptionReport.setExceptionMessage("test expired_rule message");
 
@@ -186,11 +186,11 @@ public class ReportingEndpointIT {
 
     SkippedMessage skippedMessage = new SkippedMessage();
     skippedMessage.setMessageHash(TEST_MESSAGE_HASH);
-    skippedMessage.setQueue("test queue");
+    skippedMessage.setSubscription("test subscription");
+    skippedMessage.setRoutingKey("test routing key");
     skippedMessage.setContentType("application/xml");
     skippedMessage.setHeaders(Map.of("foo", "bar"));
     skippedMessage.setMessagePayload("<noodle>poodle</noodle>".getBytes());
-    skippedMessage.setRoutingKey("test routing key");
     skippedMessage.setService("test service");
     skippedMessage.setSkippedTimestamp(null);
 
@@ -229,7 +229,7 @@ public class ReportingEndpointIT {
     ExceptionReport exceptionReport = new ExceptionReport();
     exceptionReport.setMessageHash(messageHash);
     exceptionReport.setService("test service");
-    exceptionReport.setQueue("test queue");
+    exceptionReport.setSubscription("test subscription");
     exceptionReport.setExceptionClass("test class");
     exceptionReport.setExceptionMessage("test message");
     exceptionReport.setExceptionRootCause("test root cause");

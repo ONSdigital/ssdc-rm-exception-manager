@@ -11,6 +11,6 @@ public class BadMessageSummary {
   private Instant lastSeen;
   private int seenCount;
   private Set<String> affectedServices;
-  private Set<String> affectedQueues;
+  private Set<String> affectedSubscriptions;
   private boolean quarantined;
 }

@@ -10,7 +10,7 @@ public class SkippedMessage {
   private String messageHash;
   private byte[] messagePayload;
   private String service;
-  private String queue;
+  private String subscription;
   private String routingKey;
   private String contentType;
   private Map headers;
