@@ -76,6 +76,9 @@ public class ReportingEndpoint {
         JsonHelper.convertObjectToJson(
             cachingDataStore.getBadMessageReports(skippedMessage.getMessageHash()));
 
+    String originatingUserOfSkipRequest =
+        cachingDataStore.getOriginatingUserOfSkipRequest(skippedMessage.getMessageHash());
+
     QuarantinedMessage quarantinedMessage = new QuarantinedMessage();
     quarantinedMessage.setId(UUID.randomUUID());
     quarantinedMessage.setContentType(skippedMessage.getContentType());
@@ -86,6 +89,7 @@ public class ReportingEndpoint {
     quarantinedMessage.setRoutingKey(skippedMessage.getRoutingKey());
     quarantinedMessage.setService(skippedMessage.getService());
     quarantinedMessage.setErrorReports(errorReports);
+    quarantinedMessage.setSkippingUser(originatingUserOfSkipRequest);
 
     quarantinedMessageRepository.save(quarantinedMessage);
   }

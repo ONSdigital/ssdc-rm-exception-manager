@@ -27,7 +27,7 @@ public class CachingDataStore {
   private static final Logger log = LoggerFactory.getLogger(CachingDataStore.class);
   private Map<ExceptionReport, ExceptionStats> seenExceptions = new ConcurrentHashMap<>();
   private Map<String, List<ExceptionReport>> messageExceptionReports = new ConcurrentHashMap<>();
-  private Set<String> messagesToSkip = ConcurrentHashMap.newKeySet();
+  private Map<String, String> messagesToSkipAndSkippingUser = new ConcurrentHashMap<>();
   private Set<String> messagesToPeek = ConcurrentHashMap.newKeySet();
   private Map<String, byte[]> peekedMessages = new ConcurrentHashMap<>();
   private Map<String, List<SkippedMessage>> skippedMessages = new ConcurrentHashMap<>();
@@ -88,7 +88,7 @@ public class CachingDataStore {
   }
 
   public boolean shouldWeSkipThisMessage(ExceptionReport exceptionReport) {
-    return messagesToSkip.contains(exceptionReport.getMessageHash());
+    return messagesToSkipAndSkippingUser.containsKey(exceptionReport.getMessageHash());
   }
 
   public List<AutoQuarantineRule> findMatchingRules(ExceptionReport exceptionReport) {
@@ -127,7 +127,7 @@ public class CachingDataStore {
   }
 
   public boolean isQuarantined(String messageHash) {
-    return messagesToSkip.contains(messageHash);
+    return messagesToSkipAndSkippingUser.containsKey(messageHash);
   }
 
   public boolean shouldWePeekThisMessage(String messageHash) {
@@ -150,8 +150,8 @@ public class CachingDataStore {
     return result;
   }
 
-  public void skipMessage(String messageHash) {
-    messagesToSkip.add(messageHash);
+  public void skipMessage(String messageHash, String originatingUser) {
+    messagesToSkipAndSkippingUser.put(messageHash, originatingUser);
   }
 
   public void peekMessage(String messageHash) {
@@ -216,7 +216,7 @@ public class CachingDataStore {
     } else {
       seenExceptions.clear();
       messageExceptionReports.clear();
-      messagesToSkip.clear();
+      messagesToSkipAndSkippingUser.clear();
       messagesToPeek.clear();
       peekedMessages.clear();
     }
@@ -257,5 +257,10 @@ public class CachingDataStore {
       Expression spelExpression = expressionParser.parseExpression(rule.getExpression());
       autoQuarantineExpressions.put(rule, spelExpression);
     }
+  }
+
+  public String getOriginatingUserOfSkipRequest(String messageHash) {
+    // Default skipping user to "null" if we don't know who skipped because of race conditions
+    return messagesToSkipAndSkippingUser.getOrDefault(messageHash, null);
   }
 }

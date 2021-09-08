@@ -40,6 +40,8 @@ public class QuarantinedMessage {
 
   @Column private String contentType;
 
+  @Column private String skippingUser;
+
   @Type(type = "jsonb")
   @Column(columnDefinition = "jsonb")
   private Map<String, JsonNode> headers;
