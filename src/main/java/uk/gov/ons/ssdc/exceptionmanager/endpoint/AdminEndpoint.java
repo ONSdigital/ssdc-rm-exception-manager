@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.AutoQuarantineRule;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.BadMessageReport;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.BadMessageSummary;
+import uk.gov.ons.ssdc.exceptionmanager.model.dto.SkipMessageRequest;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.SkippedMessage;
 import uk.gov.ons.ssdc.exceptionmanager.model.repository.QuarantinedMessageRepository;
 import uk.gov.ons.ssdc.exceptionmanager.persistence.CachingDataStore;
@@ -100,9 +101,10 @@ public class AdminEndpoint {
         .body(cachingDataStore.getBadMessageReports(messageHash));
   }
 
-  @GetMapping(path = "/skipmessage/{messageHash}")
-  public void skipMessage(@PathVariable("messageHash") String messageHash) {
-    cachingDataStore.skipMessage(messageHash);
+  @PostMapping(path = "/skipmessage")
+  public void skipMessage(@RequestBody SkipMessageRequest skipMessageRequest) {
+    cachingDataStore.skipMessage(
+        skipMessageRequest.getMessageHash(), skipMessageRequest.getSkippingUser());
   }
 
   @GetMapping(path = "/peekmessage/{messageHash}")

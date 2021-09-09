@@ -22,6 +22,7 @@ import uk.gov.ons.ssdc.exceptionmanager.model.dto.BadMessageReport;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.BadMessageSummary;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.ExceptionReport;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.ExceptionStats;
+import uk.gov.ons.ssdc.exceptionmanager.model.dto.SkipMessageRequest;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.SkippedMessage;
 import uk.gov.ons.ssdc.exceptionmanager.persistence.CachingDataStore;
 
@@ -104,14 +105,18 @@ public class AdminEndpointTest {
   public void testSkipMessage() {
     // Given
     String testMessageHash = "test message hash";
+    String testOriginatingUser = "foo@bar.com";
     CachingDataStore cachingDataStore = mock(CachingDataStore.class);
     AdminEndpoint underTest = new AdminEndpoint(cachingDataStore, 500, null);
 
     // When
-    underTest.skipMessage(testMessageHash);
+    SkipMessageRequest skipMessageRequest = new SkipMessageRequest();
+    skipMessageRequest.setMessageHash(testMessageHash);
+    skipMessageRequest.setSkippingUser(testOriginatingUser);
+    underTest.skipMessage(skipMessageRequest);
 
     // Then
-    verify(cachingDataStore).skipMessage(eq(testMessageHash));
+    verify(cachingDataStore).skipMessage(eq(testMessageHash), eq(testOriginatingUser));
   }
 
   @Test

@@ -181,7 +181,7 @@ public class CachingDataStoreTest {
 
     assertThat(underTest.shouldWeSkipThisMessage(exceptionReport)).isFalse();
 
-    underTest.skipMessage("test message hash");
+    underTest.skipMessage("test message hash", "foo@bar.com");
 
     assertThat(underTest.shouldWeSkipThisMessage(exceptionReport)).isTrue();
   }
@@ -471,7 +471,7 @@ public class CachingDataStoreTest {
     exceptionReportOne.setService("test service");
 
     underTest.updateStats(exceptionReportOne);
-    underTest.skipMessage("test message hash");
+    underTest.skipMessage("test message hash", "foo@bar.com");
 
     ExceptionReport exceptionReportTwo = new ExceptionReport();
     exceptionReportTwo.setMessageHash("another test message hash");
