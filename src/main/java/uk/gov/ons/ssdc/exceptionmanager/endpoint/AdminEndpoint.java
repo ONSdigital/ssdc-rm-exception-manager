@@ -202,7 +202,7 @@ public class AdminEndpoint {
     return hashes;
   }
 
-  @GetMapping(path = "/quarantinedMessages")
+  @GetMapping(path = "/quarantinedMessageHashes")
   public ResponseEntity<List<String>> getQuarrantinedMessages() {
     List<String> quarantinedMsgHashes =
         quarantinedMessageRepository.findAll().stream()
