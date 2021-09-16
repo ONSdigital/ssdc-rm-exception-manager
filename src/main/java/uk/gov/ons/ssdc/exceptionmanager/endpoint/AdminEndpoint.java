@@ -25,6 +25,7 @@ import uk.gov.ons.ssdc.exceptionmanager.model.dto.BadMessageReport;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.BadMessageSummary;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.SkipMessageRequest;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.SkippedMessage;
+import uk.gov.ons.ssdc.exceptionmanager.model.entity.QuarantinedMessage;
 import uk.gov.ons.ssdc.exceptionmanager.model.repository.QuarantinedMessageRepository;
 import uk.gov.ons.ssdc.exceptionmanager.persistence.CachingDataStore;
 
@@ -199,5 +200,15 @@ public class AdminEndpoint {
     }
 
     return hashes;
+  }
+
+  @GetMapping(path = "/quarantinedMessages")
+  public ResponseEntity<List<String>> getQuarrantinedMessages() {
+    List<String> quarantinedMsgHashes =
+        quarantinedMessageRepository.findAll().stream()
+            .map(QuarantinedMessage::getMessageHash)
+            .collect(Collectors.toList());
+
+    return ResponseEntity.status(HttpStatus.OK).body(quarantinedMsgHashes);
   }
 }
