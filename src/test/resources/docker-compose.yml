@@ -2,12 +2,10 @@ version: '2.1'
 services:
   postgres-exceptionmanager-it:
     container_name: postgres-exceptionmanager-it
-    image: postgres:13
+    image: eu.gcr.io/ssdc-rm-ci/rm/ssdc-rm-dev-common-postgres:latest
     command: ["-c", "shared_buffers=256MB", "-c", "max_connections=500"]
     ports:
       - "15434:5432"
-    environment:
-      - POSTGRES_PASSWORD=postgres
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
