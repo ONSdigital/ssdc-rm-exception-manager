@@ -17,4 +17,4 @@ services:
 networks:
   default:
     external:
-      name: network_exceptionmanager-it_default
+      name: ssdcrmdockerdev_default
