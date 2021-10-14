@@ -1,11 +1,11 @@
 version: '2.1'
 services:
-  postgres:
+  postgres-exceptionmanager-it:
     container_name: postgres-exceptionmanager-it
     image: postgres:13
     command: ["-c", "shared_buffers=256MB", "-c", "max_connections=500"]
     ports:
-      - "15432:5432"
+      - "15434:5432"
     environment:
       - POSTGRES_PASSWORD=postgres
     healthcheck:
@@ -13,3 +13,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+networks:
+  default:
+    external:
+      name: network_exceptionmanager-it_default
