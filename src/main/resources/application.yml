@@ -42,3 +42,8 @@ peek:
 
 general-config:
   number-of-retries-before-logging: 1
+
+logging:
+  profile: DEV
+  level:
+    root: INFO
