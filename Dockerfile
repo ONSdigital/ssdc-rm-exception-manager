@@ -1,6 +1,6 @@
-FROM openjdk:11-slim
+FROM openjdk:17-slim
 
-CMD ["/usr/local/openjdk-11/bin/java", "-jar", "/opt/ssdc-rm-exception-manager.jar"]
+CMD ["/usr/local/openjdk-17/bin/java", "-jar", "/opt/ssdc-rm-exception-manager.jar"]
 
 RUN apt-get update && \
 apt-get -yq install curl && \
