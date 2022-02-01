@@ -2,7 +2,7 @@ version: '2.1'
 services:
   postgres-exceptionmanager-it:
     container_name: postgres-exceptionmanager-it
-    image: eu.gcr.io/ssdc-rm-ci/rm/ssdc-rm-dev-common-postgres:latest
+    image: europe-west2-docker.pkg.dev/ssdc-rm-ci/docker/ssdc-rm-dev-common-postgres:latest
     command: ["-c", "shared_buffers=256MB", "-c", "max_connections=500"]
     ports:
       - "15434:5432"
