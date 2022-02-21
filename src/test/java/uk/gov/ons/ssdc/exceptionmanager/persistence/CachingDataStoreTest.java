@@ -404,20 +404,12 @@ public class CachingDataStoreTest {
     underTest.storeSkippedMessage(skippedMessage);
 
     assertThat(underTest.getSkippedMessages("test message hash")).contains(skippedMessage);
-    assertThat(
-        underTest
-            .getAllSkippedMessages()
-            .get("test message hash")
-            .contains(List.of(skippedMessage)));
+    assertThat(underTest.getAllSkippedMessages().get("test message hash")).contains(skippedMessage);
 
     underTest.reset(java.util.Optional.empty());
 
     assertThat(underTest.getSkippedMessages("test message hash")).contains(skippedMessage);
-    assertThat(
-        underTest
-            .getAllSkippedMessages()
-            .get("test message hash")
-            .contains(List.of(skippedMessage)));
+    assertThat(underTest.getAllSkippedMessages().get("test message hash")).contains(skippedMessage);
 
     assertThat(underTest.getAllSkippedMessages()).isNotEmpty();
     assertThat(underTest.getPeekedMessage("test message hash")).isNullOrEmpty();
