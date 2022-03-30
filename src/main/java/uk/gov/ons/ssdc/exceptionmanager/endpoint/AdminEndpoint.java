@@ -25,22 +25,17 @@ import uk.gov.ons.ssdc.exceptionmanager.model.dto.BadMessageReport;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.BadMessageSummary;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.SkipMessageRequest;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.SkippedMessage;
-import uk.gov.ons.ssdc.exceptionmanager.model.repository.QuarantinedMessageRepository;
 import uk.gov.ons.ssdc.exceptionmanager.persistence.CachingDataStore;
 
 @RestController
 public class AdminEndpoint {
   private final CachingDataStore cachingDataStore;
   private final int peekTimeout;
-  private final QuarantinedMessageRepository quarantinedMessageRepository;
 
   public AdminEndpoint(
-      CachingDataStore cachingDataStore,
-      @Value("${peek.timeout}") int peekTimeout,
-      QuarantinedMessageRepository quarantinedMessageRepository) {
+      CachingDataStore cachingDataStore, @Value("${peek.timeout}") int peekTimeout) {
     this.cachingDataStore = cachingDataStore;
     this.peekTimeout = peekTimeout;
-    this.quarantinedMessageRepository = quarantinedMessageRepository;
   }
 
   @GetMapping(path = "/badmessages")
