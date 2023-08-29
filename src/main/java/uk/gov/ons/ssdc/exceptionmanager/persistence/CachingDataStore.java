@@ -138,6 +138,10 @@ public class CachingDataStore {
     return messageExceptionReports.keySet();
   }
 
+  public int getSeenMessageCount() {
+    return messageExceptionReports.keySet().size();
+  }
+
   public Set<String> getSeenMessageHashes(int minimumSeenCount) {
     Set<String> result = new HashSet<>();
 

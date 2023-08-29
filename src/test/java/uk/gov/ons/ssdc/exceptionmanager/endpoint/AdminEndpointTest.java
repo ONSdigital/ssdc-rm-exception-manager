@@ -45,6 +45,21 @@ public class AdminEndpointTest {
   }
 
   @Test
+  public void testGetBadMessageCount() {
+    // Given
+    CachingDataStore cachingDataStore = mock(CachingDataStore.class);
+    when(cachingDataStore.getSeenMessageCount()).thenReturn(10);
+    AdminEndpoint underTest = new AdminEndpoint(cachingDataStore, 500);
+
+    // When
+    ResponseEntity<Integer> actualResponse = underTest.getBadMessagesCount();
+
+    // Then
+    assertThat(actualResponse.getBody()).isEqualTo(10);
+    verify(cachingDataStore).getSeenMessageCount();
+  }
+
+  @Test
   public void getBadMessagesSummary() {
     // Given
     CachingDataStore cachingDataStore = mock(CachingDataStore.class);
