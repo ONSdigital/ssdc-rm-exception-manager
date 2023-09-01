@@ -45,6 +45,11 @@ public class AdminEndpoint {
     return ResponseEntity.status(HttpStatus.OK).body(getSeenMessageHashes(minimumSeenCount));
   }
 
+  @GetMapping(path = "/badmessages/count")
+  public ResponseEntity<Integer> getBadMessagesCount() {
+    return ResponseEntity.status(HttpStatus.OK).body(cachingDataStore.getSeenMessageCount());
+  }
+
   @GetMapping(path = "/badmessages/summary")
   public ResponseEntity<List<BadMessageSummary>> getBadMessagesSummary(
       @RequestParam(value = "minimumSeenCount", required = false, defaultValue = "-1")
