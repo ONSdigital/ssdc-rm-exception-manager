@@ -1,5 +1,6 @@
 package uk.gov.ons.ssdc.exceptionmanager.model.entity;
 
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,6 +11,7 @@ import java.util.UUID;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
 
 @Data
@@ -38,11 +40,11 @@ public class QuarantinedMessage {
 
   @Column private String skippingUser;
 
-  @JdbcTypeCode(SqlTypes.JSON)
+  @Type(JsonBinaryType.class)
   @Column(columnDefinition = "jsonb")
   private Map<String, String> headers;
 
-  @JdbcTypeCode(SqlTypes.JSON)
+  @Type(JsonBinaryType.class)
   @Column(columnDefinition = "jsonb")
   private String errorReports;
 }
