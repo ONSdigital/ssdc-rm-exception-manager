@@ -6,6 +6,7 @@ import static org.springframework.http.HttpStatus.OK;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -214,7 +215,7 @@ public class ReportingEndpointIT {
     assertThat(quarantinedMessage.getContentType()).isEqualTo(skippedMessage.getContentType());
     assertThat(quarantinedMessage.getHeaders().size())
         .isEqualTo(skippedMessage.getHeaders().size());
-    assertThat(quarantinedMessage.getHeaders().get("foo")).isEqualTo("bar");
+    assertThat(quarantinedMessage.getHeaders().get("foo")).isEqualTo(TextNode.valueOf("bar"));
     assertThat(quarantinedMessage.getMessagePayload())
         .isEqualTo(skippedMessage.getMessagePayload());
     assertThat(quarantinedMessage.getRoutingKey()).isEqualTo(skippedMessage.getRoutingKey());

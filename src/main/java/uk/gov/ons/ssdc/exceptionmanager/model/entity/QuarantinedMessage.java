@@ -1,5 +1,6 @@
 package uk.gov.ons.ssdc.exceptionmanager.model.entity;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,7 +43,7 @@ public class QuarantinedMessage {
 
   @Type(JsonBinaryType.class)
   @Column(columnDefinition = "jsonb")
-  private Map<String, String> headers;
+  private Map<String, JsonNode> headers;
 
   @Type(JsonBinaryType.class)
   @Column(columnDefinition = "jsonb")
