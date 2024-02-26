@@ -1,23 +1,22 @@
 package uk.gov.ons.ssdc.exceptionmanager.model.entity;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
+import org.hibernate.type.SqlTypes;
 
 @Data
 @Entity
-@TypeDefs({@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)})
 public class QuarantinedMessage {
   @Id private UUID id;
 
@@ -28,7 +27,7 @@ public class QuarantinedMessage {
   @Column private String messageHash;
 
   @Lob
-  @Type(type = "org.hibernate.type.BinaryType")
+  @JdbcTypeCode(SqlTypes.VARBINARY)
   @Column
   private byte[] messagePayload;
 
@@ -42,11 +41,11 @@ public class QuarantinedMessage {
 
   @Column private String skippingUser;
 
-  @Type(type = "jsonb")
+  @Type(JsonBinaryType.class)
   @Column(columnDefinition = "jsonb")
   private Map<String, JsonNode> headers;
 
-  @Type(type = "jsonb")
+  @Type(JsonBinaryType.class)
   @Column(columnDefinition = "jsonb")
   private String errorReports;
 }

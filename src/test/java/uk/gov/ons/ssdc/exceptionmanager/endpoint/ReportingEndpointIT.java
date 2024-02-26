@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.ons.ssdc.exceptionmanager.model.dto.AutoQuarantineRule;
@@ -215,7 +215,7 @@ public class ReportingEndpointIT {
     assertThat(quarantinedMessage.getContentType()).isEqualTo(skippedMessage.getContentType());
     assertThat(quarantinedMessage.getHeaders().size())
         .isEqualTo(skippedMessage.getHeaders().size());
-    assertThat(quarantinedMessage.getHeaders().get("foo")).isEqualTo(new TextNode("bar"));
+    assertThat(quarantinedMessage.getHeaders().get("foo")).isEqualTo(TextNode.valueOf("bar"));
     assertThat(quarantinedMessage.getMessagePayload())
         .isEqualTo(skippedMessage.getMessagePayload());
     assertThat(quarantinedMessage.getRoutingKey()).isEqualTo(skippedMessage.getRoutingKey());
