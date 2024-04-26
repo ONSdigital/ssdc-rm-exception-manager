@@ -1,12 +1,12 @@
 package uk.gov.ons.ssdc.exceptionmanager.persistence;
 
-import com.godaddy.logging.Logger;
-import com.godaddy.logging.LoggerFactory;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
@@ -109,17 +109,22 @@ public class CachingDataStore {
         if (expressionResult != null && expressionResult) {
 
           if (!autoQuarantineRule.isSuppressLogging() && !autoQuarantineRule.isThrowAway()) {
-            log.with("exception_report", exceptionReport)
-                .with("expression", expression.getExpressionString())
-                .warn("Auto-quarantine message rule matched");
+            log.atWarn()
+                .setMessage("Auto-quarantine message rule matched")
+                .addKeyValue("expression", expression.getExpressionString())
+                .addKeyValue("exception_report", exceptionReport)
+                .log();
           }
 
           matchingRules.add(autoQuarantineRule);
         }
       } catch (Exception e) {
-        log.with("exception_report", exceptionReport)
-            .with("expression", expression.getExpressionString())
-            .warn("Auto-quarantine rule is causing errors", e);
+        log.atWarn()
+            .setMessage("Auto-quarantine rule is causing errors")
+            .setCause(e)
+            .addKeyValue("expression", expression.getExpressionString())
+            .addKeyValue("exception_report", exceptionReport)
+            .log();
       }
     }
 
