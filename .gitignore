@@ -3,3 +3,6 @@ target/*
 *.iml
 .java-version
 .DS_Store
+
+# Megalinter reports
+megalinter-reports/
