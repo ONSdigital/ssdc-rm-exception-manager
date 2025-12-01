@@ -10,7 +10,7 @@
   <parent>
     <artifactId>spring-boot-starter-parent</artifactId>
     <groupId>org.springframework.boot</groupId>
-    <version>3.2.2</version>
+    <version>3.5.7</version>
   </parent>
 
   <properties>
@@ -227,6 +227,11 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
+    </dependency>
+    <dependency>
+      	<groupId>org.aspectj</groupId>
+      	<artifactId>aspectjweaver</artifactId>
+      	<version>1.9.24</version>
     </dependency>
 
     <!--    Test Dependencies below this point -->
