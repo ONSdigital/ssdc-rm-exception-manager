@@ -32,10 +32,11 @@ spring:
 
 management:
   endpoints:
-    enabled-by-default: false
+    access:
+      default: none
   endpoint:
     health:
-      enabled: true
+      access: READ_ONLY
 
 peek:
   timeout: 30000 # milliseconds
