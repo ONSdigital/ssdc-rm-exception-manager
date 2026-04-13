@@ -24,7 +24,7 @@ test:
 	CONTAINER_CLI=$(DOCKER) mvn clean verify jacoco:report
 
 docker-build:
-	$(DOCKER) build . -t europe-west2-docker.pkg.dev/ssdc-rm-ci/docker/ssdc-rm-exception-manager:latest
+	$(DOCKER) build . --platform linux/amd64 -t europe-west2-docker.pkg.dev/ssdc-rm-ci/docker/ssdc-rm-exception-manager:latest
 
 megalint:  ## Run the mega-linter.
 	$(DOCKER) run --platform linux/amd64 --rm \
