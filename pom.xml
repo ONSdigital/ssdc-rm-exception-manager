@@ -10,14 +10,32 @@
   <parent>
     <artifactId>spring-boot-starter-parent</artifactId>
     <groupId>org.springframework.boot</groupId>
-    <version>3.5.12</version>
+    <version>3.5.13</version>
   </parent>
 
   <properties>
     <maven.compiler.release>17</maven.compiler.release>
+    <container.cli>docker</container.cli>
   </properties>
 
   <version>1.0-SNAPSHOT</version>
+
+  <profiles>
+    <!-- Podman profile activated when env CONTAINER_CLI is set to "podman" -->
+    <!-- This is so podman will be used to run docker commands -->
+    <profile>
+      <id>podman</id>
+      <activation>
+        <property>
+          <name>env.CONTAINER_CLI</name>
+          <value>podman</value>
+        </property>
+      </activation>
+      <properties>
+        <container.cli>podman</container.cli>
+      </properties>
+    </profile>
+  </profiles>
 
   <build>
     <defaultGoal>clean install</defaultGoal>
@@ -71,7 +89,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>docker</executable>
+              <executable>${container.cli}</executable>
               <commandlineArgs>compose -f src/test/resources/docker-compose.yml up -d</commandlineArgs>
             </configuration>
           </execution>
@@ -82,7 +100,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>docker</executable>
+              <executable>${container.cli}</executable>
               <commandlineArgs>compose -f src/test/resources/docker-compose.yml down -v</commandlineArgs>
             </configuration>
           </execution>
