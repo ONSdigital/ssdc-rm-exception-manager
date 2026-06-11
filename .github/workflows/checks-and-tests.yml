@@ -20,7 +20,7 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # Google auth allows maven to pull artifacts from our registry
       # And acquire a token for authenticating with the docker registry
